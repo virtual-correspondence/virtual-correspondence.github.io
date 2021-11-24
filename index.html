@@ -1,0 +1,172 @@
+<!DOCTYPE HTML>
+<html>
+
+
+
+<head>
+    <title>Virtual Correspondences: Humans as a Cue for Extreme-View Geometry</title>
+    <meta https-equiv="content-type" content="text/html; charset=UTF-8" />
+    <style type="text/css">
+        body {background-image : url("img/bg.png"); } 
+    </style>
+
+    <link rel="stylesheet" type="text/css" href="style_pages.css" />
+    <script type="text/javascript" src="../js/modernizr-1.5.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:light,normal" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Oregano" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
+
+    <link rel="stylesheet" href="model-viewer.css">
+    <!-- Import the component -->
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>    
+
+</head>
+
+<body>
+    <h1>Virtual Correspondences: Humans as a Cue for Extreme-View Geometry</h1>    
+    <div id="content">
+        <!-- <h1>Virtual Correspondences: Humans as a Cue for Extreme-View Geometry</h1> -->
+        <div style="text-align: center">
+            <span class="author"><a href="">Paper ID 817</a></span>
+        </div>
+        <br>
+        <div class="venue">In Submission to IEEE Conference on Computer Vision and Pattern Recognition (<b>CVPR</b>), 2022</div>
+        <div style="text-align: center">
+        <h3>Please check out README for instructions if you cannot see the 3D models properly.</h3>
+        </div>
+        <br>
+<!--        <div class="highlight"><b>1st place on KITTI Scene Flow benchmark</b></div> -->
+
+        <br>
+        <hr>
+        <h2>Illustrations of Virtual Correspondences (Sec. 3.1 in main text)</h2>
+        <div style="text-align: center;">
+            <img src="img/vc-illustration-2.png" width=950>
+            Two pixels are virtual correspondences if their camera rays intersect in 3D. The intersection can happen at various places, which we illustrate a few here. The leftmost scenario is exactly the definition of classic correspondences. VCs, therefore, can be seen as a generalization of existing correspondences.
+        </div>
+
+        <br>
+        <hr>
+        <h2>Comparison against Classic Bundle Adjustment (BA)</h2>
+        <div style="text-align: center;">
+            <img src="img/ba.png" width=930><br>
+            See Sec. 3.3 (main paper) and Sec. 2 (supp. material) for more details.
+        </div>         
+
+        <br>
+        <hr>
+        <h2>How Do We Estimate Virtual Correspondences?</h2>
+        <div style="text-align: center;">
+        <video width=800 controls> <source src="img/vc-pipeline.mp4" type="video/mp4"> Does not support... </video><br>
+        In practice, we use EFT-Net to predict the 3D SMPL model and leverage DensePose to associate each pixel with each point on the human mesh. Please see Sec. 3.2 (main paper) for more details.
+        </div>               
+
+        <br>
+        <hr>
+        <h2>Established Correspondences across Frames</h2>        
+        <div style="text-align: center;">
+            <h5>(Animation of Fig. 6 of the main paper)</h5>            
+           <h4>SuperGlue</h4>
+            <img src="img/gif/sg.gif" width=800>
+            <h4>Virtual Correspondences</h4>
+            <img src="img/gif/vc.gif" width=800>
+            <h4>Our system takes the best of both worlds! We combine two types of correspondences and are able to produce accurate pose estimation across a wide range of scenarios. See Sec. 4 of the main paper for more details.</h4>
+
+        </div>
+
+
+        <br>
+        <hr>
+        <h2>Interactive Results</h2>
+        <div style="text-align: center;">
+            <h5>(3D Humans are only used for virtual correspondences estimation and are shown for visualization purpose.)</h5>
+            <h5>
+            (Please check out README for instructions if you cannot see the 3D models properly.)</h5>
+            <h2>CMU Panoptic Studio</h2>
+            <img src="img/qual_vc/00011456/171204_pose6_00_29_00011456.jpg" width=225>
+            <img src="img/qual_vc/00011456/171204_pose6_00_01_00011456.jpg" width=225>
+            <img src="img/qual_vc/00011456/171204_pose6_00_13_00011456.jpg" width=225>
+            <img src="img/qual_vc/00011456/171204_pose6_00_27_00011456.jpg" width=225>
+            <img src="img/qual_vc/00011456/171204_pose6_00_09_00011456.jpg" width=225>
+            <img src="img/qual_vc/00011456/171204_pose6_00_03_00011456.jpg" width=225>
+            <img src="img/qual_vc/00011456/171204_pose6_00_25_00011456.jpg" width=225>
+            <img src="img/qual_vc/00011456/171204_pose6_00_07_00011456.jpg" width=225>
+            <h5>(We did not show VCs here to avoid clutter.)</h5>          
+            <br>
+            <model-viewer src="img/glb/eight-cam.glb" interaction-prompt="when-focused" camera-controls exposure="0.72" shadow-intensity="2.7" shadow-softness="0.84" min-camera-orbit="auto auto auto" max-camera-orbit="auto auto 11.89m" camera-orbit="309.2deg 86.87deg 9.5m" field-of-view="5deg" width=900>
+            </model-viewer> 
+            <h2>CMU Panoptic Studio</h2>
+            <img src="img/qual_vc/00031435/171204_pose4_00_01_00031435.jpg" width=225>
+            <img src="img/qual_vc/00031435/171204_pose4_00_17_00031435.jpg" width=225>
+            <img src="img/qual_vc/00031435/171204_pose4_00_05_00031435.jpg" width=225>
+            <img src="img/qual_vc/00031435/171204_pose4_00_23_00031435.jpg" width=225>
+            <img src="img/qual_vc/00031435/171204_pose4_00_07_00031435.jpg" width=225>
+            <img src="img/qual_vc/00031435/171204_pose4_00_19_00031435.jpg" width=225>
+            <img src="img/qual_vc/00031435/171204_pose4_00_29_00031435.jpg" width=225>
+            <img src="img/qual_vc/00031435/171204_pose4_00_09_00031435.jpg" width=225>                   
+            <h5>(We did not show VCs here to avoid clutter.)</h5>
+            <br>
+            <model-viewer src="img/glb/eight-cam-2.glb" interaction-prompt="when-focused" camera-controls exposure="0.72" shadow-intensity="2.7" shadow-softness="0.84" min-camera-orbit="auto auto auto" max-camera-orbit="auto auto 11.89m" camera-orbit="309.2deg 86.87deg 9.5m" field-of-view="5deg" width=900>
+            </model-viewer>                          
+            <h2>Mannequin Challenge (Teachers)</h2>
+            <img src="img/qual_vc/teacher.png" width=900>
+            <br>
+            <model-viewer src="img/glb/teacher.glb" interaction-prompt="when-focused" camera-controls exposure="0.72" shadow-intensity="2.7" shadow-softness="0.84" min-camera-orbit="auto auto auto" max-camera-orbit="auto auto 11.89m" camera-orbit="309.2deg 86.87deg 6.5m" field-of-view="5deg" width=900>
+            </model-viewer>              
+            <h2>Mannequin Challenge (Girls)</h2>
+            <img src="img/qual_vc/table_girl.png" width=900>
+            <br>
+            <model-viewer src="img/glb/table_girl.glb" interaction-prompt="when-focused" camera-controls exposure="0.72" shadow-intensity="2.7" shadow-softness="0.84" min-camera-orbit="auto auto auto" max-camera-orbit="auto auto 11.89m" camera-orbit="309.2deg 86.87deg 6.5m" field-of-view="5deg" width=900>
+            </model-viewer>                         
+            <h2>Friends</h2>
+            <img src="img/qual_vc/friends-vc.png" width=900>
+            <h5>(Camera intrinsics are determined by empirically setting FoV to 25 degrees.)</h5>            
+            <br>
+            <model-viewer src="img/glb/friends.glb" interaction-prompt="when-focused" camera-controls exposure="0.72" shadow-intensity="2.7" shadow-softness="0.84" min-camera-orbit="auto auto auto" max-camera-orbit="auto auto 11.89m" camera-orbit="309.2deg 86.87deg 6.5m" field-of-view="5deg" width=900>
+            </model-viewer> 
+            <!-- <br> -->
+            <h2>Michael Jordan</h2>
+            <img src="img/qual_vc/jordan-vc.png" width=900>
+            <h5>(Camera intrinsics are determined by empirically setting FoV to 25 degrees.)</h5>
+            <br>
+            <model-viewer src="img/glb/jordan.glb" interaction-prompt="when-focused" camera-controls exposure="0.72" shadow-intensity="2.7" shadow-softness="0.84" min-camera-orbit="auto auto auto" max-camera-orbit="auto auto 11.89m" camera-orbit="429.2deg 86.87deg 12.5m" field-of-view="5deg" width=900>
+            </model-viewer> 
+            <!-- <br>         -->
+            <h2>Wallstreet</h2>    
+            <img src="img/qual_vc/wallstreet-vc.png" width=900>
+            <h5>(Camera intrinsics are determined by empirically setting FoV to 25 degrees.)</h5>
+            <br>
+            <model-viewer src="img/glb/wallstreet.glb" interaction-prompt="when-focused" camera-controls exposure="0.72" shadow-intensity="2.7" shadow-softness="0.84" min-camera-orbit="auto auto auto" max-camera-orbit="auto auto 11.89m" camera-orbit="359.2deg 86.87deg 5m" field-of-view="5deg" width=900>
+            </model-viewer> 
+
+        </div>
+
+        <br>
+        <hr>
+        <h2>Scene Reconstruction with Our Approach + Multi-View Stereo</h2>
+        <div style="text-align: center;">
+<!--             <h4>Input: Two non-overlapping videos</h4>
+            <img src="img/mvs/man_stand-1.gif" width=300>
+            <img src="img/mvs/man_stand-2.gif" width=300> -->             
+            <!-- <h4>(Input: Two non-overlapping videos.)</h4> -->
+            <!-- <img src="img/qual_vc/teacher.png" width=900> -->
+            <h4>Rendered Reconstruction</h4> 
+            <img src="img/mvs/man_stand-1.png" width=400>
+            <img src="img/mvs/man_stand-2.png" width=400>            
+            <br>
+            <h4>Reconstructed Mesh</h4>            
+<!--             <model-viewer src="img/glb/man_stand.glb" interaction-prompt="when-focused" camera-controls exposure="0.62" shadow-intensity="2.7" shadow-softness="0.84" min-camera-orbit="auto auto auto" max-camera-orbit="auto auto 11.89m" camera-orbit="309.2deg 186.87deg 20.5m" field-of-view="80deg" width=900>
+            </model-viewer>  -->  
+            <div class="sketchfab-embed-wrapper"> <iframe title="Standing Man" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" allow="autoplay; fullscreen; xr-spatial-tracking" xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share width="640" height="480" src="https://sketchfab.com/models/e632747b416146dd9445b7e7e0ce88ad/embed"> </iframe> </div>            
+            <h5>(We use sketchfab here since its rendering quality is better than model-viewer.)</h5>
+<!--             <h5>(We decimate the mesh multiple times to reduce the memory. Additionally, model-viewer is a light-weight rendering library. Therefore there is a quality difference between the 3D model rendered here and the screenshot images (rendered with blender).)</h5>  --> 
+        </div>
+
+
+
+</body>
+
+</html>
+
