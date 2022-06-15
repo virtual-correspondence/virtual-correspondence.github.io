@@ -1,172 +1,324 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html>
 
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
 
+    <title>Virtual Correspondence</title>
 
-<head>
-    <title>Virtual Correspondences: Humans as a Cue for Extreme-View Geometry</title>
-    <meta https-equiv="content-type" content="text/html; charset=UTF-8" />
-    <style type="text/css">
-        body {background-image : url("img/bg.png"); } 
-    </style>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" type="text/css" href="style_pages.css" />
-    <script type="text/javascript" src="../js/modernizr-1.5.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-    <link href="https://fonts.googleapis.com/css?family=Roboto:light,normal" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Oregano" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
+    <meta property="og:image" content="https://people.csail.mit.edu/weichium/virtual-correspondence/img/good-will-kobe-4.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="2130">
+    <meta property="og:image:height" content="976">
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://people.csail.mit.edu/weichium/virtual-correspondence/"/>
+    <meta property="og:title" content="Virtual Correspondence: Humans as a Cue for Extreme-View Geometry" />
+    <meta property="og:description" content="Recovering the spatial layout of the cameras and the geometry of the scene from extreme-view images is a longstanding challenge in computer vision. Prevailing 3D reconstruction algorithms often adopt the image matching paradigm and presume that a portion of the scene is co-visible across images, yielding poor performance when there is little overlap among inputs. In contrast, humans can associate visible parts in one image to the corresponding invisible components in another image via prior knowledge of the shapes.   Inspired by this fact, we present a novel concept called virtual correspondences (VCs). VCs are a pair of pixels from two images whose camera rays intersect in 3D.  Similar to classic correspondences, VCs conform with epipolar geometry; unlike classic correspondences, VCs do not need to be co-visible across views. Therefore VCs can be established and exploited even if images do not overlap. We introduce a method to find virtual correspondences based on humans in the scene. We showcase how VCs can be seamlessly integrated with classic bundle adjustment to recover camera poses across extreme views.  Experiments show that our method significantly outperforms state-of-the-art camera pose estimation methods in challenging scenarios and is comparable in the traditional densely captured setup.  Our approach also unleashes the potential of multiple downstream tasks such as scene reconstruction from multi-view stereo and novel view synthesis in extreme-view scenarios."/>
 
-    <link rel="stylesheet" href="model-viewer.css">
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Virtual Correspondence: Humans as a Cue for Extreme-View Geometry" />
+    <meta name="twitter:description" content="Recovering the spatial layout of the cameras and the geometry of the scene from extreme-view images is a longstanding challenge in computer vision. Prevailing 3D reconstruction algorithms often adopt the image matching paradigm and presume that a portion of the scene is co-visible across images, yielding poor performance when there is little overlap among inputs. In contrast, humans can associate visible parts in one image to the corresponding invisible components in another image via prior knowledge of the shapes.   Inspired by this fact, we present a novel concept called virtual correspondences (VCs). VCs are a pair of pixels from two images whose camera rays intersect in 3D.  Similar to classic correspondences, VCs conform with epipolar geometry; unlike classic correspondences, VCs do not need to be co-visible across views. Therefore VCs can be established and exploited even if images do not overlap. We introduce a method to find virtual correspondences based on humans in the scene. We showcase how VCs can be seamlessly integrated with classic bundle adjustment to recover camera poses across extreme views.  Experiments show that our method significantly outperforms state-of-the-art camera pose estimation methods in challenging scenarios and is comparable in the traditional densely captured setup.  Our approach also unleashes the potential of multiple downstream tasks such as scene reconstruction from multi-view stereo and novel view synthesis in extreme-view scenarios." />
+    <meta name="twitter:image" content="https://people.csail.mit.edu/weichium/virtual-correspondence/img/good-will-kobe-4.png" />
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.8.0/codemirror.min.css">
+    <link rel="stylesheet" href="css/app.css">
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.8.0/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.3/clipboard.min.js"></script>
+    
+    <script src="js/app.js"></script>
+
+    <link rel="stylesheet" href="css/model-viewer.css">
     <!-- Import the component -->
     <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>    
 
 </head>
 
 <body>
-    <h1>Virtual Correspondences: Humans as a Cue for Extreme-View Geometry</h1>    
-    <div id="content">
-        <!-- <h1>Virtual Correspondences: Humans as a Cue for Extreme-View Geometry</h1> -->
-        <div style="text-align: center">
-            <span class="author"><a href="">Paper ID 817</a></span>
-        </div>
-        <br>
-        <div class="venue">In Submission to IEEE Conference on Computer Vision and Pattern Recognition (<b>CVPR</b>), 2022</div>
-        <div style="text-align: center">
-        <h3>Please check out README for instructions if you cannot see the 3D models properly.</h3>
-        </div>
-        <br>
-<!--        <div class="highlight"><b>1st place on KITTI Scene Flow benchmark</b></div> -->
-
-        <br>
-        <hr>
-        <h2>Illustrations of Virtual Correspondences (Sec. 3.1 in main text)</h2>
-        <div style="text-align: center;">
-            <img src="img/vc-illustration-2.png" width=950>
-            Two pixels are virtual correspondences if their camera rays intersect in 3D. The intersection can happen at various places, which we illustrate a few here. The leftmost scenario is exactly the definition of classic correspondences. VCs, therefore, can be seen as a generalization of existing correspondences.
+    <div class="container" id="main">
+        <div class="row">
+            <h2 class="col-md-12 text-center">
+                <b>Virtual Correspondence</b><br> Humans as a Cue for Extreme-View Geometry</br> 
+                <small>
+                CVPR 2022 
+                </small>
+            </h2>
         </div>
 
-        <br>
-        <hr>
-        <h2>Comparison against Classic Bundle Adjustment (BA)</h2>
-        <div style="text-align: center;">
-            <img src="img/ba.png" width=930><br>
-            See Sec. 3.3 (main paper) and Sec. 2 (supp. material) for more details.
-        </div>         
-
-        <br>
-        <hr>
-        <h2>How Do We Estimate Virtual Correspondences?</h2>
-        <div style="text-align: center;">
-        <video width=800 controls> <source src="img/vc-pipeline.mp4" type="video/mp4"> Does not support... </video><br>
-        In practice, we use EFT-Net to predict the 3D SMPL model and leverage DensePose to associate each pixel with each point on the human mesh. Please see Sec. 3.2 (main paper) for more details.
-        </div>               
-
-        <br>
-        <hr>
-        <h2>Established Correspondences across Frames</h2>        
-        <div style="text-align: center;">
-            <h5>(Animation of Fig. 6 of the main paper)</h5>            
-           <h4>SuperGlue</h4>
-            <img src="img/gif/sg.gif" width=800>
-            <h4>Virtual Correspondences</h4>
-            <img src="img/gif/vc.gif" width=800>
-            <h4>Our system takes the best of both worlds! We combine two types of correspondences and are able to produce accurate pose estimation across a wide range of scenarios. See Sec. 4 of the main paper for more details.</h4>
-
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <ul class="list-inline">
+                <li>
+                    <a href="http://people.csail.mit.edu/weichium/">
+                      Wei-Chiu Ma<sup>1,4</sup>
+                    </a>
+<!--                     </br>MIT, Waabi
+ -->                </li>
+                <li>
+                    <a href="https://www.cs.toronto.edu/~ajyang/">
+                        Anqi Joyce Yang<sup>2,4</sup>
+                    </a>
+<!--                     </br>UofT, Waabi
+ -->                </li>
+                <li>
+                    <a href="http://shenlong.web.illinois.edu">
+                      Shenlong Wang<sup>3</sup>
+                    </a>
+                    <!-- </br>UIUC -->
+                </li><br>
+                <li>
+                    <a href="http://www.cs.toronto.edu/~urtasun/index.html">
+                      Raquel Urtasun<sup>2,4</sup>
+                    </a>
+                    <!-- </br>University of Toronto, Waabi -->
+                </li>
+                <li>
+                    <a href="https://groups.csail.mit.edu/vision/torralbalab/">
+                      Antonio Torralba<sup>1</sup>
+                    </a>
+                    <!-- </br>MIT -->
+                </li>
+            </ul>
         </div>
+    </div>
+   <div class="row">
+        <div class="col-md-12 text-center">
+            <ul class="list-inline">
+                <li>
+                    <sup>1</sup> MIT
+                </li>
+                <li>
+                    <sup>2</sup> UofT
+                </li>
+                <li>
+                    <sup>3</sup> UIUC
+                </li>
+                <li>
+                    <sup>4</sup> Waabi
+                </li>                
+            </ul>
+        </div>
+    </div>    
+
+    <div class="row">
+            <div class="col-md-4 col-md-offset-4 text-center">
+                <ul class="nav nav-pills nav-justified">
+                    <li>
+                        <a href="http://people.csail.mit.edu/weichium/virtual-correspondence/top.pdf">
+                        <image src="img/paper-thumbnail.jpg" height="60px">
+                            <h4><strong>Paper</strong></h4>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://youtu.be/W9odd2F2Bx4">
+                        <image src="img/youtube-icon.png" height="60px">
+                            <h4><strong>Video<br>(5 min)</strong></h4>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="">
+                        <image src="img/colab-icon.png" height="60px">
+                            <h4><strong>Colab<br>(coming soon)</strong></h4>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+    </div>    
 
 
-        <br>
-        <hr>
-        <h2>Interactive Results</h2>
-        <div style="text-align: center;">
-            <h5>(3D Humans are only used for virtual correspondences estimation and are shown for visualization purpose.)</h5>
-            <h5>
-            (Please check out README for instructions if you cannot see the 3D models properly.)</h5>
-            <h2>CMU Panoptic Studio</h2>
-            <img src="img/qual_vc/00011456/171204_pose6_00_29_00011456.jpg" width=225>
-            <img src="img/qual_vc/00011456/171204_pose6_00_01_00011456.jpg" width=225>
-            <img src="img/qual_vc/00011456/171204_pose6_00_13_00011456.jpg" width=225>
-            <img src="img/qual_vc/00011456/171204_pose6_00_27_00011456.jpg" width=225>
-            <img src="img/qual_vc/00011456/171204_pose6_00_09_00011456.jpg" width=225>
-            <img src="img/qual_vc/00011456/171204_pose6_00_03_00011456.jpg" width=225>
-            <img src="img/qual_vc/00011456/171204_pose6_00_25_00011456.jpg" width=225>
-            <img src="img/qual_vc/00011456/171204_pose6_00_07_00011456.jpg" width=225>
-            <h5>(We did not show VCs here to avoid clutter.)</h5>          
-            <br>
+
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <video id="v0" width="100%" autoplay loop muted controls>
+              <source src="img/vc_demo.mp4" type="video/mp4" />
+            </video>
+                    </div>
+        <div class="col-md-8 col-md-offset-2">
+                        <p class="text-center">
+                        Play with sound. Video credit: Tom Buehler and Wei-Chiu Ma.
+                        </p>
+                    </div>
+    </div>    
+
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <h3>
+                Can you tell the relationships between these matched pixels?
+            </h3>
+            <img src="img/good-will-kobe-4.png"  width="100%">
+            <p class="text-justify">The head pixel and the face pixel in the leftmost images have completely different semantics and appearances, yet we can still associate them for 3D reasoning. 
+            Why, and how? 
+            In this paper, we present a novel concept to establish geometric relationships between pixels even if they are not semantically or visually similar.
+            </p>
+        </div>
+    </div>    
+
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <h3>
+                Abstract
+            </h3>
+            <p class="text-justify">
+            Recovering the spatial layout of the cameras and the geometry of the scene from extreme-view images is a longstanding challenge in computer vision. Prevailing 3D reconstruction algorithms often adopt the image matching paradigm and presume that a portion of the scene is co-visible across images, yielding poor performance when there is little overlap among inputs.  
+            In contrast, humans can associate visible parts in one image to the corresponding invisible components in another image via prior knowledge of the shapes.   Inspired by this fact, we present a novel concept called virtual correspondences (VCs). VCs are a pair of pixels from two images whose camera rays intersect in 3D.  Similar to classic correspondences, VCs conform with epipolar geometry; unlike classic correspondences, VCs do not need to be co-visible across views. Therefore VCs can be established and exploited even if images do not overlap. 
+            We introduce a method to find virtual correspondences based on humans in the scene. We showcase how VCs can be seamlessly integrated with classic bundle adjustment to recover camera poses across extreme views.  Experiments show that our method significantly outperforms state-of-the-art camera pose estimation methods in challenging scenarios and is comparable in the traditional densely captured setup.  Our approach also unleashes the potential of multiple downstream tasks such as scene reconstruction from multi-view stereo and novel view synthesis in extreme-view scenarios.
+            </p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <h3>
+                Classic Correspondence <em>v.s.</em> Virtual Correspondence
+            </h3>
+            <img src="img/bunny-new-2.png"  width="100%">
+            <!-- <p class="text-justify"> </p> -->
+        </div>
+    </div>      
+
+
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <h3>
+                Established Correspondences across Frames
+            </h3>
+            <p class="text-center">Classic Correspondences (SuperGlue)</p>
+            <p align="center">
+            <img src="img/gif/sg.gif" width="80%">
+            </p>
+            <p class="text-center">Virtual Correspondences</p>
+            <p align="center">
+            <img src="img/gif/vc.gif" width="80%">
+            </p>
+            <p class="text-justify">Our system takes the best of both worlds! We combine two types of correspondences and are able to produce accurate pose estimation across a wide range of scenarios. See Sec. 4 of the main paper for more details. </p>
+        </div>
+    </div>     
+
+
+    <!-- <hr> -->
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <h3>
+                Interactive 3D Reconstruction Results
+            </h3>
+            <p class="text-center">CMU Panoptic Studio</p>
+            <img src="img/qual_vc/00011456/171204_pose6_00_29_00011456.jpg" width=184>
+            <img src="img/qual_vc/00011456/171204_pose6_00_01_00011456.jpg" width=184>
+            <img src="img/qual_vc/00011456/171204_pose6_00_13_00011456.jpg" width=184>
+            <img src="img/qual_vc/00011456/171204_pose6_00_27_00011456.jpg" width=184>
+            <img src="img/qual_vc/00011456/171204_pose6_00_09_00011456.jpg" width=184>
+            <img src="img/qual_vc/00011456/171204_pose6_00_03_00011456.jpg" width=184>
+            <img src="img/qual_vc/00011456/171204_pose6_00_25_00011456.jpg" width=184>
+            <img src="img/qual_vc/00011456/171204_pose6_00_07_00011456.jpg" width=184>
+            <p class="text-center">
+            We do not show VCs here to avoid clutter.
+            </p>            
+            <!-- <br> -->
             <model-viewer src="img/glb/eight-cam.glb" interaction-prompt="when-focused" camera-controls exposure="0.72" shadow-intensity="2.7" shadow-softness="0.84" min-camera-orbit="auto auto auto" max-camera-orbit="auto auto 11.89m" camera-orbit="309.2deg 86.87deg 9.5m" field-of-view="5deg" width=900>
             </model-viewer> 
-            <h2>CMU Panoptic Studio</h2>
-            <img src="img/qual_vc/00031435/171204_pose4_00_01_00031435.jpg" width=225>
-            <img src="img/qual_vc/00031435/171204_pose4_00_17_00031435.jpg" width=225>
-            <img src="img/qual_vc/00031435/171204_pose4_00_05_00031435.jpg" width=225>
-            <img src="img/qual_vc/00031435/171204_pose4_00_23_00031435.jpg" width=225>
-            <img src="img/qual_vc/00031435/171204_pose4_00_07_00031435.jpg" width=225>
-            <img src="img/qual_vc/00031435/171204_pose4_00_19_00031435.jpg" width=225>
-            <img src="img/qual_vc/00031435/171204_pose4_00_29_00031435.jpg" width=225>
-            <img src="img/qual_vc/00031435/171204_pose4_00_09_00031435.jpg" width=225>                   
-            <h5>(We did not show VCs here to avoid clutter.)</h5>
             <br>
+            <p class="text-center">CMU Panoptic Studio</p>            
+            <img src="img/qual_vc/00031435/171204_pose4_00_01_00031435.jpg" width=184>
+            <img src="img/qual_vc/00031435/171204_pose4_00_17_00031435.jpg" width=184>
+            <img src="img/qual_vc/00031435/171204_pose4_00_05_00031435.jpg" width=184>
+            <img src="img/qual_vc/00031435/171204_pose4_00_23_00031435.jpg" width=184>
+            <img src="img/qual_vc/00031435/171204_pose4_00_07_00031435.jpg" width=184>
+            <img src="img/qual_vc/00031435/171204_pose4_00_19_00031435.jpg" width=184>
+            <img src="img/qual_vc/00031435/171204_pose4_00_29_00031435.jpg" width=184>
+            <img src="img/qual_vc/00031435/171204_pose4_00_09_00031435.jpg" width=184>
+            <p class="text-center">
+            We do not show VCs here to avoid clutter.
+            </p>  
+            <!-- <br> -->
             <model-viewer src="img/glb/eight-cam-2.glb" interaction-prompt="when-focused" camera-controls exposure="0.72" shadow-intensity="2.7" shadow-softness="0.84" min-camera-orbit="auto auto auto" max-camera-orbit="auto auto 11.89m" camera-orbit="309.2deg 86.87deg 9.5m" field-of-view="5deg" width=900>
-            </model-viewer>                          
-            <h2>Mannequin Challenge (Teachers)</h2>
-            <img src="img/qual_vc/teacher.png" width=900>
+            </model-viewer>  
             <br>
+            <p class="text-center">Mannequin Challenge (Teachers)</p>
+            <img src="img/qual_vc/teacher.png" width="100%">
+            <br><br>
             <model-viewer src="img/glb/teacher.glb" interaction-prompt="when-focused" camera-controls exposure="0.72" shadow-intensity="2.7" shadow-softness="0.84" min-camera-orbit="auto auto auto" max-camera-orbit="auto auto 11.89m" camera-orbit="309.2deg 86.87deg 6.5m" field-of-view="5deg" width=900>
-            </model-viewer>              
-            <h2>Mannequin Challenge (Girls)</h2>
-            <img src="img/qual_vc/table_girl.png" width=900>
+            </model-viewer>   
             <br>
+            <p class="text-center">Mannequin Challenge (Girls)</p>
+            <img src="img/qual_vc/table_girl.png" width="100%">
+            <br><br>
             <model-viewer src="img/glb/table_girl.glb" interaction-prompt="when-focused" camera-controls exposure="0.72" shadow-intensity="2.7" shadow-softness="0.84" min-camera-orbit="auto auto auto" max-camera-orbit="auto auto 11.89m" camera-orbit="309.2deg 86.87deg 6.5m" field-of-view="5deg" width=900>
-            </model-viewer>                         
-            <h2>Friends</h2>
-            <img src="img/qual_vc/friends-vc.png" width=900>
-            <h5>(Camera intrinsics are determined by empirically setting FoV to 25 degrees.)</h5>            
-            <br>
+            </model-viewer>                      
+            <br>   
+            <p class="text-center">Friends</p>
+            <img src="img/qual_vc/friends-vc.png" width="100%">
+            <p class="text-center">FoV are empirically set to 25 degrees.</p>            
             <model-viewer src="img/glb/friends.glb" interaction-prompt="when-focused" camera-controls exposure="0.72" shadow-intensity="2.7" shadow-softness="0.84" min-camera-orbit="auto auto auto" max-camera-orbit="auto auto 11.89m" camera-orbit="309.2deg 86.87deg 6.5m" field-of-view="5deg" width=900>
             </model-viewer> 
-            <!-- <br> -->
-            <h2>Michael Jordan</h2>
-            <img src="img/qual_vc/jordan-vc.png" width=900>
-            <h5>(Camera intrinsics are determined by empirically setting FoV to 25 degrees.)</h5>
             <br>
+            <p class="text-center">Michael Jordan</p>
+            <img src="img/qual_vc/jordan-vc.png" width="100%">
+            <p class="text-center">FoV are empirically set to 25 degrees.</p>  
             <model-viewer src="img/glb/jordan.glb" interaction-prompt="when-focused" camera-controls exposure="0.72" shadow-intensity="2.7" shadow-softness="0.84" min-camera-orbit="auto auto auto" max-camera-orbit="auto auto 11.89m" camera-orbit="429.2deg 86.87deg 12.5m" field-of-view="5deg" width=900>
-            </model-viewer> 
-            <!-- <br>         -->
-            <h2>Wallstreet</h2>    
-            <img src="img/qual_vc/wallstreet-vc.png" width=900>
-            <h5>(Camera intrinsics are determined by empirically setting FoV to 25 degrees.)</h5>
-            <br>
-            <model-viewer src="img/glb/wallstreet.glb" interaction-prompt="when-focused" camera-controls exposure="0.72" shadow-intensity="2.7" shadow-softness="0.84" min-camera-orbit="auto auto auto" max-camera-orbit="auto auto 11.89m" camera-orbit="359.2deg 86.87deg 5m" field-of-view="5deg" width=900>
-            </model-viewer> 
+            </model-viewer>             
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <h3>
+                Virtual Correspondence + Multi-view stereo
+            </h3>
+            <p class="text-center">Input: two non-overlapping videos</p>
+            <!-- <img src="img/shenlong-mvs.png" width="100%"> -->
+            <p align="center">
+            <img src="img/shenlong-1.gif" width=200>
+            <img src="img/shenlong-2.gif" width=200>           
+            </p>
+            <!-- <br><br> -->
+            <p class="text-center">Output: Reconstructed 3D Mesh</p>
+            <p align="center">
+            <iframe title="Standing Man" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" allow="autoplay; fullscreen; xr-spatial-tracking" xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share width="640" height="480" src="https://sketchfab.com/models/e632747b416146dd9445b7e7e0ce88ad/embed"> </iframe></p>
 
         </div>
+    </div>  
 
-        <br>
-        <hr>
-        <h2>Scene Reconstruction with Our Approach + Multi-View Stereo</h2>
-        <div style="text-align: center;">
-<!--             <h4>Input: Two non-overlapping videos</h4>
-            <img src="img/mvs/man_stand-1.gif" width=300>
-            <img src="img/mvs/man_stand-2.gif" width=300> -->             
-            <!-- <h4>(Input: Two non-overlapping videos.)</h4> -->
-            <!-- <img src="img/qual_vc/teacher.png" width=900> -->
-            <h4>Rendered Reconstruction</h4> 
-            <img src="img/mvs/man_stand-1.png" width=400>
-            <img src="img/mvs/man_stand-2.png" width=400>            
-            <br>
-            <h4>Reconstructed Mesh</h4>            
-<!--             <model-viewer src="img/glb/man_stand.glb" interaction-prompt="when-focused" camera-controls exposure="0.62" shadow-intensity="2.7" shadow-softness="0.84" min-camera-orbit="auto auto auto" max-camera-orbit="auto auto 11.89m" camera-orbit="309.2deg 186.87deg 20.5m" field-of-view="80deg" width=900>
-            </model-viewer>  -->  
-            <div class="sketchfab-embed-wrapper"> <iframe title="Standing Man" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" allow="autoplay; fullscreen; xr-spatial-tracking" xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share width="640" height="480" src="https://sketchfab.com/models/e632747b416146dd9445b7e7e0ce88ad/embed"> </iframe> </div>            
-            <h5>(We use sketchfab here since its rendering quality is better than model-viewer.)</h5>
-<!--             <h5>(We decimate the mesh multiple times to reduce the memory. Additionally, model-viewer is a light-weight rendering library. Therefore there is a quality difference between the 3D model rendered here and the screenshot images (rendered with blender).)</h5>  --> 
+
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <h3>
+                Citation (bibtex)
+            </h3>
+            <div class="form-group col-md-10 col-md-offset-1">
+                <textarea id="bibtex" class="form-control" readonly>
+@inproceedings{ma2022virtual,
+    title={Virtual Correspondence: Humans as a Cue for Extreme-View Geometry},
+    author={Wei-Chiu Ma and Anqi Joyce Yang and Shenlong Wang
+            and Raquel Urtasun and Antonio Torralba},
+    journal={CVPR},
+    year={2022}
+}</textarea>
+            </div>
         </div>
+    </div>
 
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <h3>
+                Acknowledgements
+            </h3>
+            <p class="text-justify">
+            The authors would like to thank <a href="https://siegedog.com/">Ioan Andrei Bârsan</a>, <a href="http://www.cs.toronto.edu/~manivasagam/">Siva Manivasagam</a>, and <a href="http://www.cs.toronto.edu/~kelvinwong/">Kelvin Wong</a> for their feedback on the early draft, and <a href="https://people.csail.mit.edu/lrchai/">Lucy "When I grow up I wanna be Lucy Chai" Chai</a> for final proofreading.
+            The website template is borrowed from <a href="http://mgharbi.com/">Michaël Gharbi</a>.
+            </p>
+        </div>
+    </div>    
 
-
+</div>
 </body>
-
 </html>
-
